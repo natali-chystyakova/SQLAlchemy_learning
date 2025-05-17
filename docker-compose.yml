@@ -1,0 +1,45 @@
+#version: '3.8'
+#
+#
+#services:
+#  fastapi_app:
+#    build: .
+#    user: "1000"
+#    ports:
+#      - "8000:8000"
+#    volumes:
+#      - ./db_data:/app/db_data:rw
+##    environment:
+##      - DATABASE_URL=sqlite+aiosqlite:///app/db_data/tasks.db
+##    entrypoint: ["sh", "-c", "chmod 777 /app/tasks.db && uvicorn main_pet_project:app --host 0.0.0.0 --port 8000"]
+##    volumes:
+##      - ./files_input:/app/files_input:rw
+##      - ./files_output:/app/files_output:rw
+
+version: '3.8'
+
+volumes:
+  postgres_data: { }
+
+services:
+  app:
+    build: .
+    depends_on:
+      - postgres
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    profiles:
+      - full_dev
+
+  postgres:
+    image: postgres:15.2
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:rw
+    env_file:
+      - .env
+    profiles:
+      - full_dev
+      - local_dev

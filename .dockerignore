@@ -1,0 +1,18 @@
+# Ignore all
+#**
+
+# Exclude
+
+#!main_pet_project.py
+#!database.py
+#!repository.py
+#!router.py
+#!schemas.py
+#!requirements.txt
+#!Makefile
+
+venv
+Dockerfile
+tasks.db
+books.db
+
